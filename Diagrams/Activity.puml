@@ -1,0 +1,15 @@
+@startuml
+start
+:MA logs in;
+:View assigned divisions;
+:Select schedule form;
+:Enter cleaning data;
+if (All fields valid?) then (yes)
+  :Submit schedule;
+  :System saves data;
+  :Show confirmation;
+else (no)
+  :Show error;
+endif
+stop
+@enduml

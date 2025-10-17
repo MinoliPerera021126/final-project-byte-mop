@@ -1,0 +1,50 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class User {
+  +id : int
+  +username : string
+  +password : string
+  +role : string
+}
+
+class Zone {
+  +id : int
+  +name : string
+  +description : text
+}
+
+class Building {
+  +id : int
+  +name : string
+  +zone : Zone
+}
+
+class Division {
+  +id : int
+  +name : string
+  +building : Building
+}
+
+class Schedule {
+  +id : int
+  +division : Division
+  +assigned_to : User
+  +date : date
+  +status : string
+}
+
+class Report {
+  +id : int
+  +schedule : Schedule
+  +summary : text
+  +approved_by : User
+  +created_at : datetime
+}
+
+User "1" -- "many" Schedule : creates >
+Zone "1" -- "many" Building
+Building "1" -- "many" Division
+Division "1" -- "many" Schedule
+Schedule "1" -- "1" Report
+@enduml
