@@ -1,0 +1,52 @@
+{% extends 'campus/base.html' %}
+{% block title %}Zones{% endblock %}
+
+{% block content %}
+<h2>Add Zone</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Create Zone</button>
+</form>
+
+<hr>
+
+<h3>Existing Zones</h3>
+<ul>
+  {% for z in zones %}
+    <li>
+      <strong>{{ z.name }}</strong> — {{ z.description|default:"(no description)" }}
+
+      <!-- Show Edit/Delete ONLY if no buildings exist -->
+      {% if z.buildings.count == 0 %}
+        <div style="margin-top:6px;">
+          <a href="{% url 'campus:zone_edit' z.id %}">Edit</a> |
+          <a href="{% url 'campus:zone_delete' z.id %}">Delete</a>
+        </div>
+      {% endif %}
+
+      <!-- Display buildings and divisions if exist -->
+      {% for b in z.buildings.all %}
+        <div style="margin-left:12px; margin-top:8px; padding:4px; border:1px solid #eee;">
+          <strong>Building: {{ b.name }}</strong> — {{ b.description|default:"(no description)" }}
+
+          <!-- Display divisions under building -->
+          {% if b.divisions.count > 0 %}
+            <ul style="margin-left:12px;">
+              {% for d in b.divisions.all %}
+                <li>{{ d.name }}{% if d.description %} — {{ d.description }}{% endif %}</li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <div style="margin-left:12px;">No divisions yet</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <hr>
+    </li>
+  {% empty %}
+    <li>No zones created yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -26,7 +26,7 @@ urlpatterns = [
     path('', accounts_views.home, name='home'),
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
-    # path('campus/', include('campus.urls', namespace='campus')),
+    path('campus/', include('campus.urls', namespace='campus')),
 ]  # Add static files URL patterns
 urlpatterns += staticfiles_urlpatterns()
 

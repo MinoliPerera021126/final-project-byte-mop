@@ -1,0 +1,8 @@
+{% extends 'campus/base.html' %}
+{% block title %}No Building Found{% endblock %}
+
+{% block content %}
+<h2>No Buildings Yet</h2>
+<!-- 🔔 Message with link to go create a building -->
+<p>Please create at least one <a href="{% url 'campus:building_list' %}">Building</a> before adding Divisions.</p>
+{% endblock %}

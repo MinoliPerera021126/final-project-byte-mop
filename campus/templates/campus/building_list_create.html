@@ -1,0 +1,25 @@
+{% extends 'campus/base.html' %}
+{% block content %}
+<h2>Add Building</h2>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Create Building</button>
+</form>
+
+<hr>
+
+<h3>Buildings</h3>
+<ul>
+  {% for b in buildings %}
+    <li>
+      <strong>{{ b.name }}</strong> — Zone: {{ b.zone.name }}, Floors: {{ b.floors }}
+      [<a href="{% url 'campus:building_edit' b.pk %}">Edit</a>]
+      [<a href="{% url 'campus:building_delete' b.pk %}">Delete</a>]
+    </li>
+  {% empty %}
+    <li>No buildings yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}
