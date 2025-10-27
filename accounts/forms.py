@@ -3,13 +3,12 @@ from django.contrib.auth.models import User
 from .models import Profile
 
 
-class RegisterForm(forms.ModelForm):
+class CreateMAForm(forms.ModelForm):
     username = forms.CharField(max_length=100)
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
-    role = forms.ChoiceField(
-        choices=(('admin', 'System Admin'), ('ma', 'Management Assistant')))
+    phone = forms.CharField(max_length=15, required=False)
 
     class Meta:
-        model = User
-        fields = ['username', 'email', 'password']
+        model = Profile
+        fields = ['username', 'email', 'password', 'phone']

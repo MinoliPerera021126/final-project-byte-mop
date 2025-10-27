@@ -1,50 +1,37 @@
 @startuml
-skinparam classAttributeIconSize 0
+left to right direction
+skinparam packageStyle rectangle
 
-class User {
-  +id : int
-  +username : string
-  +password : string
-  +role : string
+actor "System Admin" as Admin
+actor "Management Assistant" as MA
+
+rectangle "University Cleaning System" {
+  (Login) as Login
+  (Create MA Accounts) as CMA
+  (Create Zone) as CZ
+  (Add a Building) as AB
+  (Create Division) as CD
+  (Create Schedule) as CS
+  (Fill & Submit Schedule) as FSS
+  (Review, Summarize, Approve Report) as RSAR
+  (View & Download Summarized Report) as VDSR
+  (Open and Close Submission) as OCS
 }
 
-class Zone {
-  +id : int
-  +name : string
-  +description : text
-}
+Admin --> Login
+Admin --> CMA
+Admin --> CZ
+Admin --> AB
+Admin --> CD
+Admin --> CS
+Admin --> RSAR
+Admin --> VDSR
+Admin --> OCS
 
-class Building {
-  +id : int
-  +name : string
-  +zone : Zone
-}
+MA --> Login
+MA --> FSS
+MA --> VDSR
 
-class Division {
-  +id : int
-  +name : string
-  +building : Building
-}
-
-class Schedule {
-  +id : int
-  +division : Division
-  +assigned_to : User
-  +date : date
-  +status : string
-}
-
-class Report {
-  +id : int
-  +schedule : Schedule
-  +summary : text
-  +approved_by : User
-  +created_at : datetime
-}
-
-User "1" -- "many" Schedule : creates >
-Zone "1" -- "many" Building
-Building "1" -- "many" Division
-Division "1" -- "many" Schedule
-Schedule "1" -- "1" Report
+CZ --> AB : <<include>>
+AB --> CD : <<include>>
 @enduml
