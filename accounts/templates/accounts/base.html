@@ -139,61 +139,6 @@
 
 <body class="index-page">
 
-    <!-- ======= Header ======= -->
-    <header id="header" class="header d-flex align-items-center" style="background-color: #b30000;">
-        <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-
-            <!-- Logo -->
-            <a href="{% url 'home' %}" class="logo d-flex align-items-center text-decoration-none">
-                <img src="{% static 'assets/img/usj.png' %}" alt="USJ Logo" style="height: 55px; margin-right: 10px;">
-                <h1 class="sitename" style="color: #ffcc00; font-weight: 700; font-size: 1.6rem; margin: 0;">
-                    University of Sri Jayewardenepura
-                </h1>
-            </a>
-
-            <!-- Navigation -->
-            <nav id="navmenu" class="navmenu d-flex align-items-center">
-                <ul
-                    style="list-style: none; margin: 0; padding: 0; display: flex; gap: 25px; align-items: center; margin-right: 25px;">
-                    <li><a href="{% url 'home' %}" class="active">Home</a></li>
-                    <li><a href="{% url 'about' %}">About</a></li>
-                    <li><a href="{% url 'admin_dashboard' %}">Admin</a></li>
-                    <li><a href="{% url 'ma_login' %}">Management Assistant</a></li>
-                    <li><a href="{% url 'contact' %}">Contact</a></li>
-                </ul>
-
-                {% if request.user.is_authenticated %}
-                <div class="dropdown profile-dropdown ms-2">
-                    <button class="profile-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"
-                        title="{{ request.user.profile.get_role_display }}">
-                        <div class="profile-circle">
-                            {% if request.user.profile.profile_pic %}
-                            <img src="{{ request.user.profile.profile_pic.url }}" alt="Profile" class="profile-img">
-                            {% else %}
-                            <span class="profile-initial">{{ request.user.username|first|upper }}</span>
-                            {% endif %}
-                        </div>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end mt-2">
-                        <li class="dropdown-header">
-                            <strong>{{ request.user.username }}</strong><br>
-                            <small class="text-muted">{{ request.user.profile.get_role_display }}</small>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="{% url 'profile' %}"><i
-                                    class="bi bi-person-circle me-2"></i>View Profile</a></li>
-                        <li><a class="dropdown-item text-danger" href="{% url 'logout' %}"><i
-                                    class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
-                    </ul>
-                </div>
-                {% endif %}
-
-                <i class="mobile-nav-toggle d-xl-none bi bi-list" style="color: #fff;"></i>
-            </nav>
-        </div>
-    </header>
 
     <!-- ======= Main Content ======= -->
     <main id="main">
