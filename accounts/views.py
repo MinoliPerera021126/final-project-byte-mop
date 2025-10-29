@@ -148,15 +148,26 @@ def create_ma_view(request):
             password = form.cleaned_data['password']
             phone = form.cleaned_data['phone']
 
+            # --- VALIDATION RULES ---
+            if " " in username:
+                messages.error(request, 'Username cannot contain spaces.')
+                return redirect('create_ma')
+
+            if len(password) < 8:
+                messages.error(
+                    request, 'Password must be at least 8 characters long.')
+                return redirect('create_ma')
+
             if User.objects.filter(username=username).exists():
                 messages.error(request, 'Username already taken.')
                 return redirect('create_ma')
 
+            # --- CREATE USER ---
             user = User.objects.create_user(
                 username=username, email=email, password=password)
             Profile.objects.create(user=user, role='ma', phone=phone)
             messages.success(
-                request, f'Management Assistant \"{username}\" created successfully.')
+                request, f'Management Assistant "{username}" created successfully.')
             return redirect('admin_dashboard')
         else:
             messages.error(request, 'Invalid form data.')
@@ -195,6 +206,50 @@ def delete_ma_view(request, user_id):
         messages.error(request, 'User not found.')
 
     return redirect('admin_dashboard')
+
+
+@login_required
+@admin_required
+def change_ma_password_view(request, user_id):
+    """Allows Admin to change a Management Assistant's password"""
+    try:
+        user = User.objects.get(id=user_id)
+        if not hasattr(user, 'profile') or user.profile.role != 'ma':
+            messages.error(request, 'You can only change passwords for MAs.')
+            return redirect('admin_dashboard')
+
+        if request.method == 'POST':
+            new_password = request.POST.get('new_password')
+            confirm_password = request.POST.get('confirm_password')
+
+            if not new_password or not confirm_password:
+                messages.error(request, 'Please fill in both password fields.')
+                return redirect('change_ma_password', user_id=user_id)
+
+            if new_password != confirm_password:
+                messages.error(request, 'Passwords do not match.')
+                return redirect('change_ma_password', user_id=user_id)
+
+            if len(new_password) < 8:
+                messages.error(
+                    request, 'Password must be at least 8 characters long.')
+                return redirect('change_ma_password', user_id=user_id)
+
+            user.set_password(new_password)
+            user.save()
+            messages.success(
+                request, f'Password for "{user.username}" changed successfully.')
+            return redirect('admin_dashboard')
+
+    except User.DoesNotExist:
+        messages.error(request, 'User not found.')
+        return redirect('admin_dashboard')
+
+    return render(request, 'accounts/change_ma_password.html', {
+        'user': user,
+        'title': 'Change MA Password',
+        'description': 'Update the password for a Management Assistant securely.',
+    })
 
 
 # ------------------------

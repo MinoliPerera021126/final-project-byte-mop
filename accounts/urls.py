@@ -17,6 +17,10 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
 
+    path('change-ma-password/<int:user_id>/',
+         views.change_ma_password_view, name='change_ma_password'),
+
+
     path('profile/', views.view_profile, name='profile'),
 ]
 urlpatterns += staticfiles_urlpatterns()
