@@ -1,0 +1,8 @@
+{% extends 'campus/base.html' %}
+{% block title %}No Zone Found{% endblock %}
+
+{% block content %}
+<h2>No Zones Yet</h2>
+<!-- 🔔 Message with link to go create a zone -->
+<p>Please create at least one <a href="{% url 'campus:zone_list' %}">Zone</a> before adding Buildings.</p>
+{% endblock %}

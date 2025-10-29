@@ -1,0 +1,11 @@
+{% extends 'campus/base.html' %}
+{% block content %}
+  <h2>Confirm delete</h2>
+  <p>Are you sure you want to delete: <strong>{{ obj }}</strong> ?</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, delete</button>
+    <a href="{{ cancel_url }}">Cancel</a>
+  </form>
+{% endblock %}
