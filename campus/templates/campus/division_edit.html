@@ -1,0 +1,10 @@
+{% extends 'campus/base.html' %}
+{% block content %}
+  <h2>Edit Division — {{ division.name }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+    <a href="{% url 'campus:division_list' %}">Cancel</a>
+  </form>
+{% endblock %}

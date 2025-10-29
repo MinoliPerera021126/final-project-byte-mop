@@ -6,8 +6,10 @@ venv
 *.pot
 *.pyc
 __pycache__
-db.sqlite3
 media
+
+# SQLite database
+db.sqlite3
 
 # Backup files # 
 *.bak 

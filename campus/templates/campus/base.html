@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Campus Cleaning System{% endblock %}</title>
+
+  <!-- Simple CSS for all pages -->
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f7f9fb; }
+    h1, h2, h3 { color: #333; }
+    .nav { margin-bottom: 20px; }
+    .nav a { margin-right: 15px; text-decoration: none; color: #0066cc; }
+    .messages { list-style: none; padding: 0; }
+    .messages li { padding: 8px; margin: 5px 0; border-radius: 4px; }
+    .messages li.success { background: #d7ffd9; }
+    .messages li.warning { background: #fff4d7; }
+    .messages li.error { background: #ffd7d7; }
+    form { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 0 4px #ccc; }
+    table { border-collapse: collapse; width: 100%; background: white; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+    button { padding: 6px 12px; margin-top: 10px; }
+    ul { background: white; padding: 10px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+
+  <!-- 🔗 Navigation links appear on every page -->
+  <div class="nav">
+    <a href="{% url 'campus:home' %}">Home</a>
+    <a href="{% url 'campus:zone_list' %}">Zones</a>
+    <a href="{% url 'campus:building_list' %}">Buildings</a>
+    <a href="{% url 'campus:division_list' %}">Divisions</a>
+  </div>
+
+  <!-- 📢 Display Django messages (like success, warning, error) -->
+  {% if messages %}
+    <ul class="messages">
+      {% for m in messages %}
+        <li class="{{ m.tags }}">{{ m }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <!-- 🧩 Placeholder for each page’s content -->
+  {% block content %}
+  {% endblock %}
+
+</body>
+</html>

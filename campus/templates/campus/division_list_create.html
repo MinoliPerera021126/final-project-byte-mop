@@ -1,0 +1,41 @@
+{% extends 'campus/base.html' %}
+{% block content %}
+  <h2>Add Division</h2>
+
+  <!-- Division creation form -->
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Division</button>
+  </form>
+
+  <hr>
+
+  <h3>Divisions by Building</h3>
+
+  <!-- Loop through buildings -->
+  {% for building in buildings %}
+    <section style="margin-bottom: 20px; border: 1px solid #ddd; padding: 10px;">
+      <h4>🏢 {{ building.name }}</h4>
+      <p>{{ building.description|default:"(no description)" }}</p>
+
+      <!-- Loop through divisions under this building -->
+      {% if building.divisions.all|length > 0 %}
+        <ul>
+          {% for division in building.divisions.all %}
+            <li>
+              {{ division.name }}
+              {% if division.management_assistant %}
+                — Assigned to {{ division.management_assistant }}
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p style="color: gray;">No divisions under this building yet.</p>
+      {% endif %}
+    </section>
+  {% empty %}
+    <p>No buildings found.</p>
+  {% endfor %}
+{% endblock %}
