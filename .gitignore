@@ -1,0 +1,41 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+
+# Django static and media files
+staticfiles/
+media/
+
+# Django migrations (optional, if you want to ignore migration cache .pyc files)
+**/migrations/*.pyc
+**/migrations/__pycache__/
+
+# SQLite database
+db.sqlite3
+
+# VS Code settings (optional)
+.vscode/
+
+# Environment variables
+.env
+
+# MacOS and general system files
+.DS_Store
+
+# Logs
+*.log
+
+# Test coverage
+htmlcov/
+.coverage
+
+# Pip environment
+*.egg-info/
+.eggs/
+dist/
+build/
+*.pot
+
+# Other IDE or tooling folders
+.idea/
