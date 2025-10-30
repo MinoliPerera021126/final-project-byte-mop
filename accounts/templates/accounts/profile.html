@@ -11,7 +11,6 @@
         padding-top: 70px;
     }
 
-    /* Space below sticky header */
     .profile-wrapper {
         padding-top: 120px;
         padding-bottom: 60px;
@@ -76,6 +75,7 @@
         text-decoration: none;
         display: inline-block;
         transition: 0.3s;
+        cursor: pointer;
     }
 
     .edit-btn:hover {
@@ -96,15 +96,78 @@
         color: #7a0000;
     }
 
+    /* Popup Styles */
+    .popup-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 999;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .popup-box {
+        background: #fff8e1;
+        border: 3px solid #b30000;
+        border-radius: 12px;
+        padding: 30px 25px;
+        text-align: center;
+        max-width: 350px;
+        width: 90%;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.25);
+        animation: popIn 0.4s ease;
+    }
+
+    .popup-box h4 {
+        color: #7a0000;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .popup-box p {
+        color: #333;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    .popup-box button {
+        background-color: #b30000;
+        color: #fff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .popup-box button:hover {
+        background-color: #7a0000;
+    }
+
     @keyframes fadeIn {
         from {
             opacity: 0;
             transform: translateY(20px);
         }
-
         to {
             opacity: 1;
             transform: translateY(0);
+        }
+    }
+
+    @keyframes popIn {
+        from {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
         }
     }
 </style>
@@ -127,17 +190,55 @@
             <p><strong>Joined:</strong> {{ request.user.date_joined|date:"F d, Y" }}</p>
         </div>
 
-        <a href="#" class="edit-btn"><i class="bi bi-pencil-square"></i> Edit Profile</a>
-        <br>
+        <button class="edit-btn" id="editProfileBtn">
+            <i class="bi bi-pencil-square"></i> Edit Profile
+        </button>
 
+        <br>
         {% if request.user.profile.role == 'admin' %}
-        <a href="{% url 'admin_dashboard' %}" class="back-link"><i class="bi bi-arrow-left-circle"></i> Back to
-            Dashboard</a>
+        <a href="{% url 'admin_dashboard' %}" class="back-link">
+            <i class="bi bi-arrow-left-circle"></i> Back to Dashboard
+        </a>
         {% else %}
-        <a href="{% url 'ma_dashboard' %}" class="back-link"><i class="bi bi-arrow-left-circle"></i> Back to
-            Dashboard</a>
+        <a href="{% url 'ma_dashboard' %}" class="back-link">
+            <i class="bi bi-arrow-left-circle"></i> Back to Dashboard
+        </a>
         {% endif %}
     </div>
 </div>
+
+<!-- Popup Modal -->
+<div class="popup-overlay" id="popup">
+    <div class="popup-box">
+        <h4><i class="bi bi-info-circle"></i> Notice</h4>
+        <p>Request to Admin for any change.</p>
+        <button id="closePopup">OK</button>
+    </div>
+</div>
+
+<script>
+    const editBtn = document.getElementById('editProfileBtn');
+    const popup = document.getElementById('popup');
+    const closeBtn = document.getElementById('closePopup');
+
+    editBtn.addEventListener('click', function () {
+        {% if request.user.profile.role == 'ma' %}
+        popup.style.display = 'flex';
+        {% else %}
+        window.location.href = "#"; // You can link to actual edit page if admin
+        {% endif %}
+    });
+
+    closeBtn.addEventListener('click', function () {
+        popup.style.display = 'none';
+    });
+
+    // Close popup if clicked outside
+    popup.addEventListener('click', function (e) {
+        if (e.target === popup) {
+            popup.style.display = 'none';
+        }
+    });
+</script>
 
 {% endblock %}
